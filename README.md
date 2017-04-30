@@ -2,7 +2,7 @@
 This repo is about
 
 
-Description of variables in data file AdultLobster2017_Analysis.csv: 
+### Description of variables in data file AdultLobster2017_Analysis.csv: 
 
 Tag number: some individuals have 2 tag numbers because they molted and got an new tag
 
