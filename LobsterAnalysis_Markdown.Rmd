@@ -8,15 +8,11 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-library(curl)
 library(dplyr)
 library(ggplot2)
-library(readxl)
 library(MASS)
 
-AdultLobster2017_Analysis<-curl(url = "https://github.com/melissahoffman/BigData_FinalProject/blob/master/AdultLobster2017_Analysis.csv")
-
-#read_excel("~/Desktop/BigData_FinalProject/AdultLobster2017_Analysis.xlsx")
+AdultLobster2017_Analysis<-read.csv("AdultLobster2017_Analysis.csv")
 View(AdultLobster2017_Analysis)
 
 LobsterData = AdultLobster2017_Analysis
