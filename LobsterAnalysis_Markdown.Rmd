@@ -13,7 +13,6 @@ library(ggplot2)
 library(MASS)
 
 AdultLobster2017_Analysis<-read.csv("AdultLobster2017_Analysis.csv")
-
 View(AdultLobster2017_Analysis)
 
 LobsterData = AdultLobster2017_Analysis
