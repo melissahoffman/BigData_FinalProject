@@ -1,8 +1,8 @@
 # BigData_FinalProject
 
-#Tag number: some individuals have 2 tag numbers because they molted and got an new tag
-#Sex: M (male) and F (female)
-#Initial size: carapace length in milimeters at beginning of experiment
+Tag number: some individuals have 2 tag numbers because they molted and got an new tag
+Sex: M (male) and F (female)
+Initial size: carapace length in milimeters at beginning of experiment
 #NewSize: carapace length in milimeters at end of experiment
 #SizeChange: Change in carapace length from beginning to end of the experiment (change only occurred if the lobster molted)
 #Tank: tank number lobster was in for duration of the experiment
