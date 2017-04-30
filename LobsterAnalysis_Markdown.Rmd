@@ -1,0 +1,146 @@
+---
+title: "Big Data Final Markdown"
+author: "Melissa Hoffman"
+date: "April 30, 2017"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+library(curl)
+library(dplyr)
+library(ggplot2)
+library(readxl)
+library(MASS)
+
+AdultLobster2017_Analysis<-curl(url = "https://github.com/melissahoffman/BigData_FinalProject/blob/master/AdultLobster2017_Analysis.csv")
+
+#read_excel("~/Desktop/BigData_FinalProject/AdultLobster2017_Analysis.xlsx")
+View(AdultLobster2017_Analysis)
+
+LobsterData = AdultLobster2017_Analysis
+
+#Labelling the categorical variables for plots
+MoltLab = factor(as.factor(LobsterData$Molt), levels = c(0, 1), labels = c("No Molt", "Molt"))
+EndSeverityLab = factor(as.factor(LobsterData$EndSeverity), levels = c(0, 1), labels = c("Low", "High"))
+InitialSeverityLab = factor(as.factor(LobsterData$EndSeverity), levels = c(0, 1), labels = c("Low", "High"))
+```
+
+#Thesis Analysis: Isolation and utilization of probiotics to manage epizootic shell disease in the American lobster, *Homarus americanus.*
+Co-authors and researchers on this project: Castro, K., Underwood, G., Ranson, H., Somers, B., Hatzpietro, M., Rowley, D., Nelson, D.R., Gomez-Chiarri, M.
+
+###Project phase 1, trial 1
+Epizootic shell disease (ESD) in the American Lobster is a widespread, chronic disease characterized by lesions in the epicuticle of the lobster's shell. In Rhode Island, ESD has been pervasive for over two decades, and currently about 30% of lobsters show signs of disease in Narragansett Bay. Consequently, the value of the lobster industry in RI has severely declined and currently fisherman have no tools to mitigate these losses. Probiotics, the "good bacteria", have been successfully used for disease protection in several aquacultured shellfish, and may offer a promising approach for disease mitigation in the wild lobster fishery. Our goal was to isolate bacterial isolates from wild lobsters, and test their efficacy in slowing down or stopping the progression of ESD in lobsters. 
+
+###Experimental Design:
+40 diseased lobsters from Narragansett Bay were separated evenly into 4 treatment groups (3 probiotics: B, S4, P14; and one control group). For 3 months, probiotics were adminstered to the lobsters twice a week. Photographs of lobsters were taken before and after the experiment to analyze the progression of the disease over time. Molting occurrence and subsequent changes in growth (lobster's do not show signifcant changes in size unless they molt) was also recorded.
+
+###Analysis Design:
+In this analysis, I work through a series of questions about the data I collected, and conduct statistical analyses accordingly. Ultimately, my goal was to determine if variance seen in my results was due to a probiotics treatment effect, or to other confounding variables. 
+
+\newpage
+###Evaluating Growth
+First, I wanted to see if there were any significant changes in growth in lobsters between the probiotic treatments.
+\vspace{20pt}
+
+```{R ANOVA, echo=FALSE}
+ANOVA_growth <- anova(lm(SizeChange ~ Treatment, data=LobsterData))
+
+ggplot(LobsterData, aes(Treatment, SizeChange))+
+  geom_boxplot()+
+  theme(axis.text = element_text(size = 10),
+        axis.title.x = element_text(size = 12), 
+        axis.title.y = element_text(size = 12))
+```
+**Figure 1.** Average change in size of lobsters for each treatment from the beginning to the end of the experiment. There were no statistical differences in growth between treatments (One-way ANOVA p=`r ANOVA_growth$'Pr(>F)'[1]`)
+\vspace{20pt}
+\hfill\break
+While there were no significant differences in growth between treatments, it is important to note that growth was directly related to molting - which I will evaluate next. Growth was an important parameter to measure and analyze to detect any kind of positive promotion of growth due to treatment, or to see if there was suppression of growth in any of the treatments. If any of the probiotics showed growth suppression or any other negative effects, this treatment could be ruled out as a potential fisheries management tool.
+
+\newpage
+###Evaluating molting between treatments
+Since growth is determined by whether the lobster molted or not, I decided that evaluating the molting occurrence was important. Lobsters molt based on the season, and we tried to design the experiment during a time of year when lobsters typically do not molt. However, more than half of the lobsters ended up molting during the experiment. These molting events made it difficult to evaluate the progression of shell disease and treatment effects because after a lobster molts, their shell is completely free of lesions. I considered that maybe the molting ocurrences were a result of treatment.
+\vspace{20pt}
+
+```{R chisquare2, echo=FALSE, message = FALSE, warning = FALSE}
+#Chi-square test for treatment vs. molting
+chi_TM <- chisq.test(table(LobsterData$Treatment, LobsterData$Molt))
+
+ggplot(LobsterData, aes(Treatment))+
+  geom_bar(aes(fill = (MoltLab)), position = "dodge")+
+  labs(x = "Molt", y = "Number of Individuals", fill = "Molting")
+```
+**Figure 2.** Number of individual lobsters that molted throughout the course of the experiment for each treatment. There was not a significant relationship between treatment and molting occurrence (Chi-square test  p= `r chi_TM$p.value`).
+\vspace{20pt}
+\hfill\break
+Based on this analysis, it is clear that molting is not necessarily influenced by treatment. 
+
+\newpage
+###Evaluating molting in relation to ESD severity
+
+Since molting was not influenced by treatment, I wanted to see if severity of ESD (at the time the lobster molted) was related to molting occurrence. If the lobster did not molt, I evaluated their severity on the last day of the experiment. 
+\vspace{20pt}
+
+```{R chisquare1, echo=FALSE, message = FALSE, warning = FALSE}
+#Chi-square test for disease severity at end of experiment vs. molting
+chi_SM <- chisq.test(table(LobsterData$Molt, LobsterData$EndSeverity))
+
+ggplot(LobsterData, aes(MoltLab))+
+  geom_bar(aes(fill = (EndSeverityLab)), position = "dodge")+
+  labs(x = "Molt", y = "Number of Individuals", fill = "Severity")
+```
+**Figure 3.** Individual lobsters that molted in relation to severity of ESD. “High Severity” indicates lesions covered >50% of carapace. There was a significant relationship between severity of ESD and molting (Chi-square test  p= `r chi_SM$p.value`).
+\vspace{20pt}
+\hfill\break
+Clearly, disease severity plays a more significant role in molting occurrence than treatment. 
+
+\newpage
+###Evaluating disease severity at the beginning of the experiment
+When we designed the experiment, we randomly assigned lobsters to different treatments. I wanted to evaluate the severity of ESD in lobsters on the first day of the experiment, to make sure one treatment did not have a disproportionate number of lobsters with severe ESD. 
+\vspace{20pt}
+
+```{R chisquare3, echo=FALSE, message = FALSE, warning = FALSE}
+#Chi-square test for treatment vs. severity at beginning of experiment
+chi_TSI <- chisq.test(table(LobsterData$Treatment, LobsterData$InitialSeverity))
+
+ggplot(LobsterData, aes(Treatment))+
+  geom_bar(aes(fill = (InitialSeverityLab)), position = "dodge")+
+  labs(x = "Molt", y = "Number of Individuals", fill = "Severity")
+```
+**Figure 4.** Number of individual lobsters characterized as "high severity" and "low severity" for each treatment on the first day of the experiment. “High Severity” indicates lesions covered >50% of carapace. There was not a significant relationship between severity of ESD at the beginning of the experiment and treatment (Chi-square test  p= `r chi_TSI$p.value`).
+\vspace{20pt}
+\hfill\break
+Luckily, there were no significant differences between treatments (which was what we expected).
+
+\newpage
+###Evaluating disease severity at the end of the experiment
+Knowing that disease severity was distributed as homogenously as possible at the beginning of the experiment, I wanted to see if treatment influenced severity of ESD at the end of the experiment (or at the time the lobster molted).
+\vspace{20pt}
+
+```{R chisquare4, echo=FALSE, message = FALSE, warning = FALSE}
+#Chi-square test for treatment vs. severity at end of experiment
+chi_TSE <- chisq.test(table(LobsterData$Treatment, LobsterData$EndSeverity))
+
+ggplot(LobsterData, aes(Treatment))+
+  geom_bar(aes(fill = (EndSeverityLab)), position = "dodge")+
+  labs(x = "Molt", y = "Number of Individuals", fill = "Severity")
+```
+**Figure 5.** Number of individual lobsters characterized as "high severity" and "low severity" for each treatment on the last day of the experiment. “High Severity” indicates lesions covered >50% of carapace. There was not a significant relationship between severity of ESD at the end of the experiment and treatment (Chi-square test  p= `r chi_TSE$p.value`).
+\vspace{20pt}
+\hfill\break
+Once again, there were no significant differences between treatments. In fact, Figure 5 looks identical to Figure 4. This indicates that lobsters with severe ESD continued to have severe ESD. Those with lower severity may have progressed in the disease, but not enough to have lesions covering more than 50% of the carapace. While these results are not statistcally significant, too many lobsters molted to effectively track progression of ESD. More trials will have to be conducted to further evaluate treatment effects. 
+
+\newpage
+##Moving Forward
+\hfill\break
+Based on my results, I wanted to conduct a more sophisicated statistical analysis of my data that takes into account the coplex interactions between variables, such as molting and disease severity. After meeting and discussing my dataset with Dr. Natalia Katenka, a statistician at the University of Rhode Island, I created a linear model for my data set. The plots below show the output of the model. I do not yet know how to evaluate all of the outputs of this model, but being able to create this type of model in R studio is extremly beneficial for my thesis research moving forward.
+\vspace{20pt}
+\hfill\break
+```{R linear model, echo=FALSE}
+lmfit <- lm(formula = SizeChange ~ Molt + EndSeverity + Molt*EndSeverity + Treatment, data = LobsterData)
+plot(lmfit)
+```
+
+
+
