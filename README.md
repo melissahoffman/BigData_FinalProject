@@ -1,7 +1,7 @@
 # BigData_FinalProject
 This repo is for the BIO 594 final class project. For my project, I decided to analyze data from my thesis research in R Studio, create a markdown file with the analysis, and create a research poster with some of this analysis. 
 
-#### Description of files
+### Description of files
 AdultLobster2017_Analysis.csv : raw data file
 
 Hoffman_BigData_Poster.pdf : poster of thesis research - brief methods and context for research can be found here
@@ -11,9 +11,10 @@ LobsterAnalysis_Markdown.Rmd : R markdown file with data analysis - brief method
 LobsterAnalysis_Markdown.Rmd : PDF of data analysis in R markdown
 
 
+
 #### Description of variables in data file AdultLobster2017_Analysis.csv: 
 
-Tag number: some individuals have 2 tag numbers because they molted and got an new tag
+Tag number: unique identifier for each lobster, some individuals have 2 tag numbers because they molted and got an new tag
 
 Sex: M (male) and F (female)
 
@@ -25,7 +26,7 @@ SizeChange: Change in carapace length from beginning to end of the experiment (c
 
 Tank: tank number lobster was in for duration of the experiment
 
-Treatment: the probiotics treatment
+Treatment: the probiotic treatment - B, S4, and P14 are all different strains of bacterial probiotics
 
 MoltDate: day the lobster molted (if the lobster molted during  experiment)
 
