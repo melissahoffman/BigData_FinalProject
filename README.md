@@ -4,11 +4,12 @@ This repo is for the BIO 594 final class project. For my project, I decided to a
 #### Description of files
 AdultLobster2017_Analysis.csv : raw data file
 
-Hoffman_BigData_Poster.pdf : poster of thesis research
+Hoffman_BigData_Poster.pdf : poster of thesis research - brief methods and context for research can be found here
 
-LobsterAnalysis_Markdown.Rmd : R markdown file with data analysis
+LobsterAnalysis_Markdown.Rmd : R markdown file with data analysis - brief methods and rationale for analysis found here, in addition to the actual code I used for my analysis
 
-LobsterAnalysis_Markdown.Rmd : PDF of R markdown
+LobsterAnalysis_Markdown.Rmd : PDF of data analysis in R markdown
+
 
 #### Description of variables in data file AdultLobster2017_Analysis.csv: 
 
