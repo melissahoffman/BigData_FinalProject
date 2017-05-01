@@ -1,8 +1,13 @@
 # BigData_FinalProject
-This repo is about
+This repo is for the BIO 594 final class project. For my project, I decided to analyze data from my thesis research in R Studio, create a markdown file with the analysis, and create a research poster with some of this analysis. 
 
+#### Description of files
+AdultLobster2017_Analysis.csv : raw data file
+Hoffman_BigData_Poster.pdf : poster of thesis research
+LobsterAnalysis_Markdown.Rmd : R markdown file with data analysis
+LobsterAnalysis_Markdown.Rmd : PDF of R markdown
 
-### Description of variables in data file AdultLobster2017_Analysis.csv: 
+#### Description of variables in data file AdultLobster2017_Analysis.csv: 
 
 Tag number: some individuals have 2 tag numbers because they molted and got an new tag
 
