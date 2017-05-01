@@ -12,7 +12,7 @@ LobsterAnalysis_Markdown.Rmd : PDF of data analysis in R markdown
 
 
 
-#### Description of variables in data file AdultLobster2017_Analysis.csv: 
+### Description of variables in data file AdultLobster2017_Analysis.csv: 
 
 Tag number: unique identifier for each lobster, some individuals have 2 tag numbers because they molted and got an new tag
 
